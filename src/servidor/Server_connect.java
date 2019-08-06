@@ -13,16 +13,12 @@ import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.auth.UserRecord.UpdateRequest;
 import com.google.firebase.database.*;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Auth snippets for documentation.
- *
- * See:
- * https://firebase.google.com/docs/auth/admin
- */
 public class Server_connect {
 
 public Server_connect() {
@@ -113,7 +109,7 @@ public Server_connect() {
 	    // [END update_user]
 	  }
 
-	  public void setCustomUserClaims(String uid) throws InterruptedException, ExecutionException {
+  public void setCustomUserClaims(String uid) throws InterruptedException, ExecutionException {
 	    // [START set_custom_user_claims]
 	    // Set admin privilege on the user corresponding to uid.
 	    Map<String, Object> claims = new HashMap<>();
@@ -139,7 +135,7 @@ public Server_connect() {
 	    // [END read_custom_user_claims]
 	  }
 
-	  public void setCustomUserClaimsScript() throws InterruptedException, ExecutionException {
+  public void setCustomUserClaimsScript() throws InterruptedException, ExecutionException {
 	    // [START set_custom_user_claims_script]
 	    UserRecord user = FirebaseAuth.getInstance()
 	        .getUserByEmailAsync("user@admin.example.com").get();
@@ -152,7 +148,7 @@ public Server_connect() {
 	    // [END set_custom_user_claims_script]
 	  }
 
-	  public void setCustomUserClaimsInc() throws InterruptedException, ExecutionException {
+  public void setCustomUserClaimsInc() throws InterruptedException, ExecutionException {
 	    // [START set_custom_user_claims_incremental]
 	    UserRecord user = FirebaseAuth.getInstance()
 	        .getUserByEmailAsync("user@admin.example.com").get();
@@ -167,13 +163,15 @@ public Server_connect() {
 	    // [END set_custom_user_claims_incremental]
 	  }
 
-	  public void listAllUsers() throws InterruptedException, ExecutionException  {
+  public List<String> listAllUsers() throws InterruptedException, ExecutionException  {
 	    // [START list_all_users]
 	    // Start listing users from the beginning, 1000 at a time.
+		List<String> resultFilter = new ArrayList<>();// lista de Strinf donde almacenará los datos de coleccion
 	    ListUsersPage page = FirebaseAuth.getInstance().listUsersAsync(null).get();
 	    while (page != null) {
 	      for (ExportedUserRecord user : page.getValues()) {
-	        System.out.println("User: " + user.getUid());
+	       // System.out.println(user.getUid());
+	        resultFilter.add(user.getUid());
 	      }
 	      page = page.getNextPage();
 	    }
@@ -185,16 +183,29 @@ public Server_connect() {
 //	      System.out.println("User: " + user.getUid());
 //	    }
 	    // [END list_all_users]
+	    return resultFilter;
+	  }
+  
+  public void listAllUsers(boolean view) throws InterruptedException, ExecutionException  {
+	    // [START list_all_users]
+	    // Start listing users from the beginning, 1000 at a time.
+	    ListUsersPage page = FirebaseAuth.getInstance().listUsersAsync(null).get();
+	    while (page != null) {
+	      for (ExportedUserRecord user : page.getValues()) {
+	       System.out.println(user.getUid());
+	      }
+	      page = page.getNextPage();
+	    }
 	  }
 
-	  public void deleteUser(String uid) throws InterruptedException, ExecutionException {
+  public void deleteUser(String uid) throws InterruptedException, ExecutionException {
 	    // [START delete_user]
 	    FirebaseAuth.getInstance().deleteUserAsync(uid).get();
 	    System.out.println("Successfully deleted user.");
 	    // [END delete_user]
 	  }
 
-	  public void createCustomToken() throws InterruptedException, ExecutionException {
+  public void createCustomToken() throws InterruptedException, ExecutionException {
 	    // [START custom_token]
 	    String uid = "some-uid";
 
@@ -204,7 +215,7 @@ public Server_connect() {
 	    System.out.println("Created custom token: " + customToken);
 	  }
 
-	  public void createCustomTokenWithClaims() throws InterruptedException, ExecutionException {
+  public void createCustomTokenWithClaims() throws InterruptedException, ExecutionException {
 	    // [START custom_token_with_claims]
 	    String uid = "some-uid";
 	    Map<String, Object> additionalClaims = new HashMap<String, Object>();
@@ -217,7 +228,7 @@ public Server_connect() {
 	    System.out.println("Created custom token: " + customToken);
 	  }
 
-	  public void verifyIdToken(String idToken) throws InterruptedException, ExecutionException {
+  public void verifyIdToken(String idToken) throws InterruptedException, ExecutionException {
 	    // [START verify_id_token]
 	    // idToken comes from the client app (shown above)
 	    FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(idToken).get();
@@ -226,7 +237,7 @@ public Server_connect() {
 	    System.out.println("Decoded ID token from user: " + uid);
 	  }
 
-	  public void verifyIdTokenCheckRevoked(String idToken) throws InterruptedException, ExecutionException {
+  public void verifyIdTokenCheckRevoked(String idToken) throws InterruptedException, ExecutionException {
 	    // [START verify_id_token_check_revoked]
 	    try {
 	      // Verify the ID token while checking if the token is revoked by passing checkRevoked
@@ -248,7 +259,7 @@ public Server_connect() {
 	    // [END verify_id_token_check_revoked]
 	  }
 
-	  public void revokeIdTokens(String idToken) throws InterruptedException, ExecutionException { 
+  public void revokeIdTokens(String idToken) throws InterruptedException, ExecutionException { 
 	    String uid="someUid";
 	    // [START revoke_tokens]
 	    FirebaseAuth.getInstance().revokeRefreshTokensAsync(uid).get();
