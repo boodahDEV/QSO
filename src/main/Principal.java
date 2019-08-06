@@ -1,5 +1,6 @@
 package main;
 
+import java.net.*;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,24 +31,35 @@ public class Principal {
 //		if(user_name_principal.equals(""))
 //			System.out.println(user_name_principal+" Inicio al sistema.");
 	}//fin metodo de validacion de acceso al sistema
-	
+	public boolean haveConnectionToInternet(){
+	    try {
+	        final URL url = new URL("http://www.google.com");
+	        final URLConnection conn = url.openConnection();
+	        conn.connect();
+	        conn.getInputStream().close();
+	        return true;
+	    } catch (Exception e) {
+	        return false;
+	    }
+	}
 	
 	public static void main(String args[]) {
 		Principal p = new Principal();
 		
-		
 		try {
-			servidor.Server_connect s= new servidor.Server_connect(); 
-			s.createUser("test@gmail.com", false, "1q2w3e4r5t6y", "boodah", false);
+//			servidor.Server_connect s= new servidor.Server_connect(); 
+//			s.createUser("test@gmail.com", false, "1q2w3e4r5t6y", "boodah", false);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace(); }
+			e1.printStackTrace();
+		}
 		
 		
 		String textoEncriptadoConSHA=DigestUtils.sha1Hex("Faustino"); 
 		System.out.println("Texto Encriptado con SHA : "+textoEncriptadoConSHA);
 		try {
 			p.valide_access_system();
+			System.out.println("Tengo conexion?: "+p.haveConnectionToInternet());
 		} catch (Exception e) {
 			System.out.println("Error:  ");
 			e.printStackTrace();
