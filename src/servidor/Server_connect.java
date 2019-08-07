@@ -39,8 +39,6 @@ public Server_connect() {
 //	PREPARA LA INSTANCIA A FIREBASE DEPENDENDIENDO DE MIS CREDENCIALES Y ACCESO A MI BASE DE DATOS! 
 }
 
-
-
   public void getUserById(String uid) throws InterruptedException, ExecutionException {
     // [START get_user_by_id]
     UserRecord userRecord = FirebaseAuth.getInstance().getUserAsync(uid).get();
@@ -49,11 +47,17 @@ public Server_connect() {
     // [END get_user_by_id]
   }
 
-  public void getUserByEmail(String email) throws InterruptedException, ExecutionException {
-    // [START get_user_by_email]
+  public List<String> getUserByEmail(String email) throws InterruptedException, ExecutionException {
+    // [START get_user_by_email] @boodah
+	List<String> data_user_correct = new ArrayList<>();// lista de Strinf donde almacenará los datos de coleccion
     UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmailAsync(email).get();
     // See the UserRecord reference doc for the contents of userRecord.
-    System.out.println("Successfully fetched user data: " + userRecord.getEmail());
+    System.out.println("EL usuario es valido: " + userRecord.getEmail());
+	    data_user_correct.add(userRecord.getUid());
+	    data_user_correct.add(userRecord.getDisplayName());
+	    data_user_correct.add(userRecord.getEmail());
+	    data_user_correct.add(userRecord.getPhoneNumber());
+	return data_user_correct;
     // [END get_user_by_email]
   }
 
@@ -67,7 +71,7 @@ public Server_connect() {
   }
 
   public void createUser(String email, boolean emailverified, String pass, String nombre, boolean disabiled ) throws InterruptedException, ExecutionException {
-    // [START create_user]
+    // [START create_user] @boodah
     CreateRequest request = new CreateRequest()
         .setEmail(email)
         .setEmailVerified(emailverified)
@@ -164,7 +168,7 @@ public Server_connect() {
 	  }
 
   public List<String> listAllUsers() throws InterruptedException, ExecutionException  {
-	    // [START list_all_users]
+	    // [START list_all_users] @boodah
 	    // Start listing users from the beginning, 1000 at a time.
 		List<String> resultFilter = new ArrayList<>();// lista de Strinf donde almacenará los datos de coleccion
 	    ListUsersPage page = FirebaseAuth.getInstance().listUsersAsync(null).get();
