@@ -75,11 +75,10 @@ public class Principal {
     	if (Files.exists(path)) {
     			path = Paths.get(".stellarobject_u2");
     		if(Files.exists(path)){
-    				path = Paths.get(".stellarobject_u3");
+    			path = Paths.get(".stellarobject_u3");
     		}
     	}
     	/**/
-
     	try (BufferedWriter br = Files.newBufferedWriter(path,
 	        Charset.defaultCharset(), StandardOpenOption.CREATE)) {
 	    	for (String line : registro) {
@@ -121,22 +120,22 @@ public class Principal {
 //				     System.gc();
 //			      }
 //			    
-////				List<String> listuser = new ArrayList<>();
-////				  servidor.Server_connect s = new servidor.Server_connect(); // se comunica con el servidor
-////				  listuser = s.listAllUsers(); // Este devuelve la lista de usuarios creados en la base de datos en firebase
-////			    Path path = Paths.get(".outputfile");
-////			    try (BufferedWriter br = Files.newBufferedWriter(path,
-////			        Charset.defaultCharset(), StandardOpenOption.CREATE)) {
-////			         for (String line : listuser) {
-////			            br.write(line);
-////			            br.newLine();
-////			         } 
-////			      } catch (Exception e) {
-////			         e.printStackTrace();
-////			      }finally {
-////				     s = null;
-////				     System.gc();
-////			      }
+//				List<String> listuser = new ArrayList<>();
+//				  servidor.Server_connect s = new servidor.Server_connect(); // se comunica con el servidor
+//				  listuser = s.listAllUsers(); // Este devuelve la lista de usuarios creados en la base de datos en firebase
+//			    Path path = Paths.get(".outputfile");
+//			    try (BufferedWriter br = Files.newBufferedWriter(path,
+//			        Charset.defaultCharset(), StandardOpenOption.CREATE)) {
+//			         for (String line : listuser) {
+//			            br.write(line);
+//			            br.newLine();
+//			         } 
+//			      } catch (Exception e) {
+//			         e.printStackTrace();
+//			      }finally {
+//				     s = null;
+//				     System.gc();
+//			      }
 //				break;
 //			}
 //			case 0:	{
@@ -154,22 +153,20 @@ public class Principal {
 				List<String> resultFilter = new ArrayList<>();
 				stream.forEach((s)->{ 
 					if (s!=null) {
-							resultFilter.add(servidor.Codec_data_flow.Desencriptar(s, servidor.Codec_data_flow.pass));
+						resultFilter.add(servidor.Codec_data_flow.Desencriptar(s, servidor.Codec_data_flow.pass));
 					}	
 				});
 		        for(int i = 0; i<resultFilter.size();i++) {
 		            System.out.println("\t\t#"+i+" "+resultFilter.get(i)); //aqui filtro
-		        }  
-//				break;
-//			}
-//		}//fin del switch
+		        }
+		        stream.close();
 	}
 	
 	public static void main(String args[]) {
 		Principal p = new Principal();
 //		String textoEncriptadoConSHA=DigestUtils.sha1Hex("Faustino"); 
 //		System.out.println("Texto Encriptado con SHA : "+textoEncriptadoConSHA);
-		p.registry_to_system();
+//		p.registry_to_system();
 		p.login_access_system();
 	}
 }
