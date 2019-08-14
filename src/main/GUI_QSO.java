@@ -4,24 +4,20 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Field;
 import java.awt.Color;
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import java.awt.Cursor;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.GridLayout;
 
 public class GUI_QSO extends JFrame {
 
 	private JPanel contentPane;
-
+	protected JButton menu_principal;
+	protected GUI_QSO gui;
 	/**
 	 * Launch the application.
 	 */
@@ -30,6 +26,7 @@ public class GUI_QSO extends JFrame {
 			public void run() {
 				try {
 					GUI_QSO frame = new GUI_QSO();
+					frame.meForme(frame);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -43,6 +40,7 @@ public class GUI_QSO extends JFrame {
 	 * Create the frame.
 	 */
 	public GUI_QSO() {
+	 /*barra inferior*/
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUI_QSO.class.getResource("/image/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,8 +48,40 @@ public class GUI_QSO extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(1, 50, 0, 0));
+		contentPane.setLayout(null);
 		
-
+		menu_principal = new JButton("");
+		menu_principal.setIconTextGap(-20);
+		menu_principal.setIcon(new ImageIcon(GUI_QSO.class.getResource("/image/menu.png")));
+		menu_principal.setFocusable(false);
+		menu_principal.setContentAreaFilled(false);
+		menu_principal.setBorderPainted(false);
+		menu_principal.setBounds(0, 671, 40, 40);
+		/**/
+		metodo_escuchas_globales(menu_principal);
+		/**/
+		contentPane.add(menu_principal);
+		
+		
+	/*barra inferior*/
+	}
+	
+	public void meForme(GUI_QSO gui) {
+		this.gui = gui;
+	}
+	
+	public void metodo_escuchas_globales(Object objeto_entrante) {
+		if(objeto_entrante instanceof JButton) {
+			((JButton) objeto_entrante).addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+			         for(Field f : gui.getClass().getFields()) {
+			          System.out.println("nombre: " + f.getName());
+			         }
+					System.out.println("Es un boton!");
+				}
+			});
+		}
 	}
 }
