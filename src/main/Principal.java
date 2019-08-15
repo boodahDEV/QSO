@@ -82,7 +82,7 @@ public class Principal {
     	try (BufferedWriter br = Files.newBufferedWriter(path,
 	        Charset.defaultCharset(), StandardOpenOption.CREATE)) {
 	    	for (String line : registro) {
-	            br.write(servidor.Codec_data_flow.Encriptar(line, servidor.Codec_data_flow.pass));
+	            br.write(recursos.Codec_data_flow.Encriptar(line, recursos.Codec_data_flow.pass));
 	            br.newLine();
 	         } 
 	         br.newLine();
@@ -153,7 +153,7 @@ public class Principal {
 				List<String> resultFilter = new ArrayList<>();
 				stream.forEach((s)->{ 
 					if (s!=null) {
-						resultFilter.add(servidor.Codec_data_flow.Desencriptar(s, servidor.Codec_data_flow.pass));
+						resultFilter.add(recursos.Codec_data_flow.Desencriptar(s, recursos.Codec_data_flow.pass));
 					}	
 				});
 		        for(int i = 0; i<resultFilter.size();i++) {

@@ -7,16 +7,16 @@ import javax.swing.JPanel;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
-public class GUI_QSO extends JFrame {
+public class GUI_QSO extends JFrame implements Listener_global_buttons{
 
 	private JPanel contentPane;
 	protected JButton menu_principal;
 	private JPanel panel;
+	private JPanel jpdash;
 
 	/**
 	 * Launch the application.
@@ -54,7 +54,7 @@ public class GUI_QSO extends JFrame {
 		/*barra inferior*/
 		
 		JPanel jpinferior = new JPanel();
-		jpinferior.setBounds(0, 671, 1018, 40);
+		jpinferior.setBounds(0, 670, 1018, 40);
 		contentPane.add(jpinferior);
 		jpinferior.setLayout(null);
 		
@@ -74,18 +74,26 @@ public class GUI_QSO extends JFrame {
 			
 		JPanel jpspace = new JPanel();
 		jpspace.setBackground(Color.WHITE);
-		jpspace.setBounds(0, 0, 1018, 672);
+		jpspace.setBounds(0, 0, 1018, 670);
 		contentPane.add(jpspace);
+		jpspace.setLayout(null);
+		
+		JPanel jpdash = new JPanel();
+		jpdash.setBounds(0, 0, 145, 670);
+		contentPane.add(jpdash);
+		jpdash.setLayout(null);
+	}
+
+	@Override
+	public void metodo_escuchas_globales(Object objeto_entrante) {
+			if(objeto_entrante instanceof JButton && objeto_entrante.equals(menu_principal)) {
+				((JButton) objeto_entrante).addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//Accion del boton!
+					}
+				});
+			}//objeto menu_principal
 	}
 	
-	public void metodo_escuchas_globales(Object objeto_entrante) {
-		if(objeto_entrante instanceof JButton && objeto_entrante.equals(menu_principal)) {
-			((JButton) objeto_entrante).addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					//Accion del boton!
-				}
-			});
-		}//objeto menu_principal
-	}
-}
+}//fin clase
