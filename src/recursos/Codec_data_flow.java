@@ -1,4 +1,4 @@
-package servidor;
+package recursos;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
